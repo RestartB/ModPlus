@@ -1,0 +1,12 @@
+/content
+/assets
+/commands/__pycache__
+/commands_private
+/.vscode
+/test
+.cache
+main-pp.py
+*.json
+*.db
+*.log
+config.cfg
