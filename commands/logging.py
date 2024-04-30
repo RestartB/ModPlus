@@ -45,6 +45,13 @@ class logging(commands.Cog):
                 embed.add_field(name = "Message Info", value = f"Channel: {message_before.channel.name} - {message_before.channel.mention}\nMessage ID: {message_before.id}\nTime Created: <t:{round((message_before.created_at).timestamp())}:t>", inline = False)
                 embed.add_field(name = "Before Edit", value = (f"{message_before.content[:1021]}..." if len(message_before.content) > 1024 else message_before.content), inline = True)
                 embed.add_field(name = "After Edit", value = (f"{message_after.content[:1021]}..." if len(message_after.content) > 1024 else message_after.content), inline = True)
+
+                view = View()
+                jumpButton = discord.ui.Button(style = discord.ButtonStyle.url, url = message_after.jump_url, label = "Jump to Message")
+                view.add_item(jumpButton)
+
+
+
             else:
                 pass
         else:
