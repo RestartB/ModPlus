@@ -16,16 +16,11 @@ class log_utils(commands.Cog):
         self.cursor = self.connection.cursor()
         self.bot.loggingToggle = self.cursor.execute(f"SELECT * FROM 'loggingToggle'").fetchall()
         self.bot.loggingChannel = self.cursor.execute(f"SELECT * FROM 'loggingChannel'").fetchall()
-        print(self.bot.loggingToggle)
-        print(self.bot.loggingChannel)
         print("[LOG] Refreshed logging vars.")
 
     async def refreshLoggingVars(self):
         self.bot.loggingToggle = self.cursor.execute(f"SELECT * FROM 'loggingToggle'").fetchall()
         self.bot.loggingChannel = self.cursor.execute(f"SELECT * FROM 'loggingChannel'").fetchall()
-
-        print(self.bot.loggingToggle)
-        print(self.bot.loggingChannel)
     
     loggingControlGroup = app_commands.Group(name="logging", description="Control logging features.")
     
@@ -56,7 +51,6 @@ class log_utils(commands.Cog):
                     embed = discord.Embed(title = "Enabled.", color = Color.green())
                     await interaction.edit_original_response(embed = embed)
                 else:
-                    print((self.cursor.execute(f"SELECT {log_type.value} FROM 'loggingToggle' WHERE server_id = {interaction.guild.id}").fetchone())[0])
                     embed = discord.Embed(title = "Already enabled.", color = Color.green())
                     await interaction.edit_original_response(embed = embed)
             else:
