@@ -2,43 +2,15 @@ import discord
 from discord import app_commands, Color
 import discord.ext
 from discord.ext import commands
-import os
 
 class cog_utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
     cogsGroup = app_commands.Group(name="cogs", description="Control cogs. (admin only)")
-    
-    # Sync cogs command
-    @cogsGroup.command(name = "sync-cogs", description = "Sync cogs.")
-    async def sync_cogs(self, interaction: discord.Interaction):
-        await interaction.response.defer(ephemeral = True)
-        
-        if interaction.user.id in self.bot.dev_ids:
-            # Loading prompt
-            embed = discord.Embed(title = "Syncing cogs...", color = Color.orange())
-            await interaction.followup.send(embed = embed, ephemeral = True)
-            
-            # Find all cogs in command dir
-            for filename in os.listdir(f"{self.bot.path}{self.bot.pathtype}commands{self.bot.pathtype}"):
-                # If file is a Python file...
-                if filename.endswith("py"):
-                    # We load it into the bot
-                    try:
-                        await self.bot.load_extension(f"commands.{filename[:-3]}")
-                    except discord.ext.commands.errors.ExtensionAlreadyLoaded:
-                        pass
-            
-            sync = await self.bot.tree.sync()
-            embed = discord.Embed(title =  "Success!", description = f"Cogs synced. {len(sync)} commands loaded.", color = Color.green())
-            await interaction.edit_original_response(embed = embed)
-        else:
-            embed = discord.Embed(title = "You do not have permission to run this command.", color = Color.red())
-            await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Load cog command
-    @cogsGroup.command(name = "load-cog", description = "Load a cog.")
+    @cogsGroup.command(name = "load", description = "Load a cog.")
     async def load(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -59,7 +31,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Unload cog command
-    @cogsGroup.command(name = "unload-cog", description = "Unload a cog.")
+    @cogsGroup.command(name = "unload", description = "Unload a cog.")
     async def unload(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -80,7 +52,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Reload cog command
-    @cogsGroup.command(name = "reload-cog", description = "Reload a cog.")
+    @cogsGroup.command(name = "reload", description = "Reload a cog.")
     async def reload(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -101,7 +73,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
     
     # Tree sync command
-    @cogsGroup.command(name = "tree-sync", description = "Sync the command tree.")
+    @cogsGroup.command(name = "sync", description = "Sync the command tree.")
     async def tree_sync(self, interaction:discord.Interaction):
         await interaction.response.defer(ephemeral = True)
         
