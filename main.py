@@ -109,6 +109,7 @@ async def on_ready():
     # bot.control_server_id = control_server.id
     
     print("[INIT] Loading cogs...")
+
     # Find all cogs in command dir
     for filename in os.listdir(bot.cog_dir):
         # Determine if file is a python file

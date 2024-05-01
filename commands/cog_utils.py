@@ -8,8 +8,10 @@ class cog_utils(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
 
+    cogsGroup = app_commands.Group(name="cogs", description="Control cogs. (admin only)")
+    
     # Sync cogs command
-    @app_commands.command(name = "sync-cogs", description = "Sync cogs.")
+    @cogsGroup.command(name = "sync-cogs", description = "Sync cogs.")
     async def sync_cogs(self, interaction: discord.Interaction):
         await interaction.response.defer(ephemeral = True)
         
@@ -36,7 +38,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Load cog command
-    @app_commands.command(name = "load-cog", description = "Load a cog.")
+    @cogsGroup.command(name = "load-cog", description = "Load a cog.")
     async def load(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -57,7 +59,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Unload cog command
-    @app_commands.command(name = "unload-cog", description = "Unload a cog.")
+    @cogsGroup.command(name = "unload-cog", description = "Unload a cog.")
     async def unload(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -78,7 +80,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
 
     # Reload cog command
-    @app_commands.command(name = "reload-cog", description = "Reload a cog.")
+    @cogsGroup.command(name = "reload-cog", description = "Reload a cog.")
     async def reload(self, interaction:discord.Interaction, cog: str):
         await interaction.response.defer(ephemeral = True)
 
@@ -99,7 +101,7 @@ class cog_utils(commands.Cog):
             await interaction.followup.send(embed = embed, ephemeral = True)
     
     # Tree sync command
-    @app_commands.command(name = "tree-sync", description = "Sync the command tree.")
+    @cogsGroup.command(name = "tree-sync", description = "Sync the command tree.")
     async def tree_sync(self, interaction:discord.Interaction):
         await interaction.response.defer(ephemeral = True)
         
