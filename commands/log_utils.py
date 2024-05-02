@@ -71,7 +71,6 @@ class log_utils(commands.Cog):
             await interaction.edit_original_response(embed = embed)
     
     # Disable Logging command
-    # Broken
     @loggingControlGroup.command(name = "disable", description = "Disable a logging category.")
     @app_commands.default_permissions(administrator = True)
     @app_commands.choices(log_type=[
@@ -82,19 +81,18 @@ class log_utils(commands.Cog):
     async def disable_logging(self, interaction: discord.Interaction, log_type: app_commands.Choice[str]):
         await interaction.response.defer(ephemeral = True)
 
-        embed = discord.Embed(title = "Disabling...", color = Color.orange())
-        await interaction.followup.send(embed = embed, ephemeral = True)
-
         try:
+            embed = discord.Embed(title = "Disabling...", color = Color.orange())
+            await interaction.followup.send(embed = embed, ephemeral = True)
+
             if self.cursor.execute(f"SELECT server_id FROM 'loggingToggle' WHERE server_id = {interaction.guild.id}").fetchone() != None:
-                if self.cursor.execute(f"SELECT {log_type.value} FROM 'loggingToggle' WHERE server_id = {interaction.guild.id}").fetchone() == "True":
-                    self.cursor.execute(f"UPDATE 'loggingChannel' SET {log_type.value} = {None} WHERE server_id = {interaction.guild.id}")
+                if (self.cursor.execute(f"SELECT {log_type.value} FROM 'loggingToggle' WHERE server_id = {interaction.guild.id}").fetchone())[0] == "True":
                     self.cursor.execute(f"UPDATE 'loggingToggle' SET {log_type.value} = 'False' WHERE server_id = {interaction.guild.id}")
 
                     self.connection.commit()
 
                     await log_utils.refreshLoggingVars()
-                    
+
                     embed = discord.Embed(title = "Disabled.", color = Color.green())
                     await interaction.edit_original_response(embed = embed)
                 else:
