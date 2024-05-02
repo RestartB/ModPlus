@@ -45,10 +45,22 @@ class logging(commands.Cog):
                         
                         channel = self.bot.get_channel(int(channel_id))
                         await channel.send(embed = embed)
+                        break
                 else:
                     pass
             else:
                 pass
+    
+    # # Message Logger - Delete
+    # @commands.Cog.listener()
+    # async def on_raw_message_delete(self, payload):
+    #     print("RAW TRIGGER")
+    #     print(payload.channel_id)
+    #     channel = self.bot.get_channel(1213954609299853365)
+    #     await channel.send("Hello world!")
+    #     message = channel.get_message(1235657890220474468)
+    #     print(message)
+    #     print(message.content)
     
     # Message Logger - Edit
     @commands.Cog.listener()
@@ -70,7 +82,7 @@ class logging(commands.Cog):
                             embed.timestamp = datetime.datetime.now()
 
                             view = View()
-                            jumpButton = discord.ui.Button(style = discord.ButtonStyle.url, url = message_after.jump_url, label = "Jump to Message")
+                            jumpButton = discord.ui.Button(style = ButtonStyle.url, url = message_after.jump_url, label = "Jump to Message")
                             view.add_item(jumpButton)
 
                             # Find logging channel
@@ -80,9 +92,6 @@ class logging(commands.Cog):
                             
                             channel = self.bot.get_channel(int(channel_id))
                             await channel.send(embed = embed)
-
-                            # channel = self.bot.get_channel(int(channel_id))
-                            # await channel.send(message)
                         else:
                             pass
                     else:
